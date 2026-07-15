@@ -64,21 +64,3 @@ createdb hospital_yuska
 psql -d hospital_yuska -f schema.sql
 psql -d hospital_yuska -f dados_teste.sql
 ```
-
-## Resumo do modelo
-
-- **PESSOA** é especializada em **PACIENTE** e **PROFISSIONAL** (especialização parcial).
-- **PROFISSIONAL** é especializada em **PRECEPTOR** e **RESIDENTE** (especialização disjunta e parcial — um profissional nunca é os dois papéis ao mesmo tempo).
-- **ATENDIMENTO** liga exatamente um paciente, um residente e um preceptor.
-- **PROCEDIMENTO_REALIZADO** resolve o relacionamento N:M entre **ATENDIMENTO** e **PROCEDIMENTO**.
-- **ESCALA** liga unidade, dia da semana, turno, residente e preceptor, com a restrição `UNIQUE(id_unidade, dia_semana, turno, id_residente)` garantindo que não haja um mesmo residente, no mesmo local/dia/turno, com dois preceptores distintos.
-
-Detalhes de justificativa de cardinalidade, especialização e normalização
-estão no arquivo `Etapa1_Sistema_Gestao_Hospitalar.docx` (seções 1 a 3).
-
-## Limitação conhecida / trabalhos futuros
-
-`ESCALA` modela um padrão semanal recorrente (`dia_semana` + `turno`), sem
-coluna de data de calendário — por isso não é possível filtrar plantões
-literalmente por "mês corrente" com o esquema atual. Essa e outras evoluções
-(stored procedures, triggers, views, migração para ORM) ficam para a Etapa 2.
